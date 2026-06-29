@@ -21,6 +21,14 @@ body{
 }
 
 h1{
+
+.card{
+  background:#171717;
+  border-radius:20px;
+  padding:20px;
+  margin:25px 0;
+  border:1px solid #262626;
+}
   font-size:3rem;
   color:#9b5cff;
   margin-bottom:10px;
