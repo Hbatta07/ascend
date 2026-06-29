@@ -1,51 +1,169 @@
+/* =========================================
+   ASCEND v0.2
+   Design System
+========================================= */
+
 *{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
+
+:root{
+
+    /* Colors */
+    --bg:#0D0D0D;
+    --card:rgba(24,24,27,.88);
+    --border:rgba(255,255,255,.06);
+
+    --text:#FFFFFF;
+    --muted:#A1A1AA;
+
+    --accent:#7C5CFF;
+    --accent-hover:#6B4BFF;
+
+    --shadow:0 10px 30px rgba(124,92,255,.22);
+
+    --radius:24px;
+}
+
+/* ========================================= */
 
 body{
-  background:#0d0d0d;
-  color:white;
-  font-family:Arial,sans-serif;
-  height:100vh;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+
+    background:
+    radial-gradient(
+        circle at top,
+        rgba(124,92,255,.08),
+        transparent 45%
+    ),
+    var(--bg);
+
+    color:var(--text);
+
+    font-family:"Inter",sans-serif;
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    padding:24px;
 }
 
+/* ========================================= */
+
 .app{
-  text-align:center;
-  width:90%;
-  max-width:400px;
+
+    width:100%;
+    max-width:420px;
+
+}
+
+/* ========================================= */
+
+header{
+
+    margin-bottom:36px;
+
 }
 
 h1{
-  font-size:3rem;
-  color:#9b5cff;
-  margin-bottom:10px;
-}
 
-.card{
-  background:#171717;
-  border-radius:20px;
-  padding:20px;
-  margin:25px 0;
-  border:1px solid #262626;
+    font-size:3rem;
+    font-weight:800;
+
+    letter-spacing:3px;
+
+    color:var(--accent);
+
+    margin-bottom:10px;
+
+    text-shadow:
+        0 0 10px rgba(124,92,255,.15),
+        0 0 24px rgba(124,92,255,.08);
+
 }
 
 .tagline{
-  color:#9a9a9a;
-  margin-bottom:40px;
-  line-height:1.6;
+
+    color:var(--muted);
+
+    font-size:1rem;
+
+    line-height:1.7;
+
 }
 
-button{
-  background:#9b5cff;
-  color:white;
-  border:none;
-  border-radius:16px;
-  padding:16px 32px;
-  font-size:1rem;
-  font-weight:bold;
+/* ========================================= */
+
+.card{
+
+    background:var(--card);
+
+    backdrop-filter:blur(12px);
+
+    border:1px solid var(--border);
+
+    border-radius:var(--radius);
+
+    padding:24px;
+
+    margin-bottom:30px;
+
+    transition:.35s ease;
+
 }
+
+.card:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:var(--shadow);
+
+}
+
+.card h2{
+
+    font-size:1.5rem;
+
+    margin-bottom:8px;
+
+}
+
+.card p{
+
+    color:var(--muted);
+
+}
+
+/* ========================================= */
+
+.primary-btn{
+
+    width:100%;
+
+    border:none;
+
+    border-radius:18px;
+
+    padding:18px;
+
+    cursor:pointer;
+
+    background:var(--accent);
+
+    color:white;
+
+    font-size:1rem;
+
+    font-weight:700;
+
+    transition:.3s ease;
+
+}
+
+.primary-btn:hover{
+
+   
