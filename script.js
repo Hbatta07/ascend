@@ -1,23 +1,34 @@
 // =========================================
-// ASCEND v0.2
-// User + XP
+// ASCEND v0.3
+// Onboarding + XP + First Quest
 // =========================================
 
 const saveUser = document.getElementById("saveUser");
 const usernameInput = document.getElementById("usernameInput");
 const greeting = document.getElementById("greeting");
 const onboarding = document.getElementById("onboarding");
+
 const progressBar = document.querySelector(".progress-fill");
+const xpText = document.getElementById("xpText");
+const completeQuest = document.getElementById("completeQuest");
+
+let xp = Number(localStorage.getItem("xp")) || 120;
+const maxXP = 1000;
 
 loadUser();
+updateXP();
 
 saveUser.addEventListener("click", beginJourney);
 
-function beginJourney(){
+if (completeQuest) {
+    completeQuest.addEventListener("click", completeFirstQuest);
+}
+
+function beginJourney() {
 
     const username = usernameInput.value.trim();
 
-    if(username === "") return;
+    if (username === "") return;
 
     localStorage.setItem("username", username);
 
@@ -25,36 +36,10 @@ function beginJourney(){
 
 }
 
-function loadUser(){
+function loadUser() {
 
     const username = localStorage.getItem("username");
 
-    if(username){
+    if (username) {
 
-        greeting.innerHTML = `Welcome back,<br>${username}.`;
-
-        onboarding.style.display = "none";
-
-    }else{
-
-        greeting.textContent = "Welcome.";
-
-        onboarding.style.display = "block";
-
-    }
-
-    updateXP();
-
-}
-
-function updateXP(){
-
-    const xp = 120;
-
-    const maxXP = 1000;
-
-    const percentage = (xp / maxXP) * 100;
-
-    progressBar.style.width = percentage + "%";
-
-}
+        greeting.innerHTML = `Welcome back,<
