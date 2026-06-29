@@ -1,6 +1,6 @@
 // =========================================
-// ASCEND v0.3
-// Onboarding + XP + First Quest
+// ASCEND v0.4
+// XP + Quests
 // =========================================
 
 const saveUser = document.getElementById("saveUser");
@@ -10,7 +10,6 @@ const onboarding = document.getElementById("onboarding");
 
 const progressBar = document.querySelector(".progress-fill");
 const xpText = document.getElementById("xpText");
-const completeQuest = document.getElementById("completeQuest");
 
 let xp = Number(localStorage.getItem("xp")) || 120;
 const maxXP = 1000;
@@ -20,15 +19,13 @@ updateXP();
 
 saveUser.addEventListener("click", beginJourney);
 
-if (completeQuest) {
-    completeQuest.addEventListener("click", completeFirstQuest);
-}
+// ---------- Onboarding ----------
 
-function beginJourney() {
+function beginJourney(){
 
     const username = usernameInput.value.trim();
 
-    if (username === "") return;
+    if(username === "") return;
 
     localStorage.setItem("username", username);
 
@@ -36,10 +33,60 @@ function beginJourney() {
 
 }
 
-function loadUser() {
+function loadUser(){
 
     const username = localStorage.getItem("username");
 
-    if (username) {
+    if(username){
 
-        greeting.innerHTML = `Welcome back,<
+        greeting.innerHTML = `Welcome back,<br>${username}.`;
+
+        onboarding.style.display = "none";
+
+    }else{
+
+        greeting.textContent = "Welcome.";
+
+        onboarding.style.display = "block";
+
+    }
+
+}
+
+// ---------- XP ----------
+
+function updateXP(){
+
+    const percentage = (xp / maxXP) * 100;
+
+    progressBar.style.width = percentage + "%";
+
+    xpText.textContent = `${xp} / ${maxXP} XP`;
+
+}
+
+// ---------- QUESTS ----------
+
+const questButtons = document.querySelectorAll(".quest-btn");
+
+const rewards = [25,40,35];
+
+questButtons.forEach((button,index)=>{
+
+    button.addEventListener("click",()=>{
+
+        xp += rewards[index];
+
+        if(xp>maxXP) xp=maxXP;
+
+        localStorage.setItem("xp",xp);
+
+        updateXP();
+
+        button.textContent="Completed ✓";
+
+        button.disabled=true;
+
+    });
+
+});
