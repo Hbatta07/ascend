@@ -1,5 +1,5 @@
 /* =========================================
-   ASCEND v0.5
+   ASCEND v0.6
 ========================================= */
 
 *{
@@ -27,11 +27,9 @@
 body{
 
     background:
-    radial-gradient(
-        circle at top,
-        rgba(124,92,255,.08),
-        transparent 45%
-    ),
+    radial-gradient(circle at top,
+    rgba(124,92,255,.08),
+    transparent 45%),
     var(--bg);
 
     color:var(--text);
@@ -41,26 +39,85 @@ body{
     min-height:100vh;
 
     display:flex;
+
     justify-content:center;
+
     align-items:center;
 
     padding:24px;
+
 }
 
 .app{
+
     width:100%;
+
     max-width:420px;
+
 }
 
 header{
+
     margin-bottom:36px;
+
 }
 
 h1{
+
     font-size:3rem;
+
     font-weight:800;
+
     letter-spacing:3px;
+
     color:var(--accent);
+
     margin-bottom:10px;
 
-   
+    text-shadow:
+    0 0 10px rgba(124,92,255,.15),
+    0 0 24px rgba(124,92,255,.08);
+
+}
+
+#greeting{
+
+    font-size:2.2rem;
+
+    line-height:1.15;
+
+    margin-bottom:10px;
+
+}
+
+.tagline{
+
+    color:var(--muted);
+
+    line-height:1.7;
+
+}
+
+/* CARD */
+
+.card{
+
+    background:var(--card);
+
+    backdrop-filter:blur(14px);
+
+    border:1px solid var(--border);
+
+    border-radius:24px;
+
+    padding:24px;
+
+    margin-top:24px;
+
+    transition:.3s;
+
+}
+
+.card:hover{
+
+    transform:translate
