@@ -21,6 +21,10 @@ body{
 }
 
 h1{
+  font-size:3rem;
+  color:#9b5cff;
+  margin-bottom:10px;
+}
 
 .card{
   background:#171717;
@@ -28,10 +32,6 @@ h1{
   padding:20px;
   margin:25px 0;
   border:1px solid #262626;
-}
-  font-size:3rem;
-  color:#9b5cff;
-  margin-bottom:10px;
 }
 
 .tagline{
