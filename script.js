@@ -1,6 +1,6 @@
 // =========================================
-// ASCEND v0.4
-// XP + Quests
+// ASCEND v0.5
+// Dynamic Quest Rewards
 // =========================================
 
 const saveUser = document.getElementById("saveUser");
@@ -19,7 +19,9 @@ updateXP();
 
 saveUser.addEventListener("click", beginJourney);
 
-// ---------- Onboarding ----------
+// --------------------
+// USER
+// --------------------
 
 function beginJourney(){
 
@@ -53,7 +55,9 @@ function loadUser(){
 
 }
 
-// ---------- XP ----------
+// --------------------
+// XP
+// --------------------
 
 function updateXP(){
 
@@ -65,27 +69,32 @@ function updateXP(){
 
 }
 
-// ---------- QUESTS ----------
+// --------------------
+// QUESTS
+// --------------------
 
 const questButtons = document.querySelectorAll(".quest-btn");
 
-const rewards = [25,40,35];
+questButtons.forEach(button => {
 
-questButtons.forEach((button,index)=>{
+    button.addEventListener("click", () => {
 
-    button.addEventListener("click",()=>{
+        if(button.disabled) return;
 
-        xp += rewards[index];
+        const reward = Number(button.dataset.xp);
 
-        if(xp>maxXP) xp=maxXP;
+        xp += reward;
 
-        localStorage.setItem("xp",xp);
+        if(xp > maxXP){
+            xp = maxXP;
+        }
+
+        localStorage.setItem("xp", xp);
 
         updateXP();
 
-        button.textContent="Completed ✓";
-
-        button.disabled=true;
+        button.textContent = "Completed ✓";
+        button.disabled = true;
 
     });
 
