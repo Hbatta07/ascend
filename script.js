@@ -8,10 +8,8 @@ const usernameInput = document.getElementById("usernameInput");
 const greeting = document.getElementById("greeting");
 const onboarding = document.getElementById("onboarding");
 
-// Load saved user when the app starts
 loadUser();
 
-// Save user when button is clicked
 saveUser.addEventListener("click", beginJourney);
 
 function beginJourney() {
