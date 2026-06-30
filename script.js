@@ -1,6 +1,6 @@
 // =========================================
-// ASCEND v0.5
-// Dynamic Quest Rewards
+// ASCEND v0.6
+// Quest Progress
 // =========================================
 
 const saveUser = document.getElementById("saveUser");
@@ -10,26 +10,30 @@ const onboarding = document.getElementById("onboarding");
 
 const progressBar = document.querySelector(".progress-fill");
 const xpText = document.getElementById("xpText");
+const levelTitle = document.getElementById("levelTitle");
+const questProgress = document.getElementById("questProgress");
 
 let xp = Number(localStorage.getItem("xp")) || 120;
 const maxXP = 1000;
 
+let completedQuests =
+JSON.parse(localStorage.getItem("completedQuests")) || [];
+
+const questButtons = document.querySelectorAll(".quest-btn");
+
 loadUser();
 updateXP();
+updateQuestProgress();
 
 saveUser.addEventListener("click", beginJourney);
-
-// --------------------
-// USER
-// --------------------
 
 function beginJourney(){
 
     const username = usernameInput.value.trim();
 
-    if(username === "") return;
+    if(username==="") return;
 
-    localStorage.setItem("username", username);
+    localStorage.setItem("username",username);
 
     loadUser();
 
@@ -37,65 +41,52 @@ function beginJourney(){
 
 function loadUser(){
 
-    const username = localStorage.getItem("username");
+    const username=localStorage.getItem("username");
 
     if(username){
 
-        greeting.innerHTML = `Welcome back,<br>${username}.`;
+        greeting.innerHTML=`Welcome back,<br>${username}.`;
 
-        onboarding.style.display = "none";
+        onboarding.style.display="none";
 
     }else{
 
-        greeting.textContent = "Welcome.";
+        greeting.textContent="Welcome.";
 
-        onboarding.style.display = "block";
+        onboarding.style.display="block";
 
     }
 
 }
 
-// --------------------
-// XP
-// --------------------
-
 function updateXP(){
 
-    const percentage = (xp / maxXP) * 100;
+    const level=Math.floor(xp/1000)+1;
 
-    progressBar.style.width = percentage + "%";
+    const currentXP=xp%1000;
 
-    xpText.textContent = `${xp} / ${maxXP} XP`;
+    progressBar.style.width=(currentXP/1000)*100+"%";
+
+    levelTitle.textContent=`LEVEL ${level}`;
+
+    xpText.textContent=`${currentXP} / 1000 XP`;
 
 }
 
-// --------------------
-// QUESTS
-// --------------------
+function updateQuestProgress(){
 
-const questButtons = document.querySelectorAll(".quest-btn");
+    questProgress.textContent=`${completedQuests.length}/${questButtons.length}`;
 
-questButtons.forEach(button => {
+    if(completedQuests.length===questButtons.length){
 
-    button.addEventListener("click", () => {
+        questProgress.textContent+=" ✅";
 
-        if(button.disabled) return;
+    }
 
-        const reward = Number(button.dataset.xp);
+}
 
-        xp += reward;
+questButtons.forEach((button,index)=>{
 
-        if(xp > maxXP){
-            xp = maxXP;
-        }
+    if(completedQuests.includes(index)){
 
-        localStorage.setItem("xp", xp);
-
-        updateXP();
-
-        button.textContent = "Completed ✓";
-        button.disabled = true;
-
-    });
-
-});
+        button.textContent="Completed ✓";
