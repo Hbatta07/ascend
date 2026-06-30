@@ -16,3 +16,17 @@ It was built on an Oppo K10 5G,broken screen. one sprint at a time, with GitHub,
 If you're reading this wondering whether you can start with what you have...
 
 You can.
+
+
+## Roadmap
+
+- [x] User onboarding
+- [x] XP system
+- [x] Progress bar
+- [x] Daily quests
+- [x] Quest progress
+- [ ] Daily streak
+- [ ] Quest editor
+- [ ] Statistics
+- [ ] Install as App (PWA)
+- [ ] Settings
