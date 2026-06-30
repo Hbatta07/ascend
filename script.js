@@ -41,19 +41,19 @@ function beginJourney(){
 
 function loadUser(){
 
-    const username=localStorage.getItem("username");
+    const username = localStorage.getItem("username");
 
     if(username){
 
-        greeting.innerHTML=`Welcome back,<br>${username}.`;
+        greeting.innerHTML = `Welcome back,<br>${username}.`;
 
-        onboarding.style.display="none";
+        onboarding.style.display = "none";
 
     }else{
 
-        greeting.textContent="Welcome.";
+        greeting.textContent = "Welcome.";
 
-        onboarding.style.display="block";
+        onboarding.style.display = "block";
 
     }
 
@@ -61,25 +61,26 @@ function loadUser(){
 
 function updateXP(){
 
-    const level=Math.floor(xp/1000)+1;
+    const level = Math.floor(xp/1000)+1;
 
-    const currentXP=xp%1000;
+    const currentXP = xp%1000;
 
-    progressBar.style.width=(currentXP/1000)*100+"%";
+    progressBar.style.width = (currentXP/1000)*100 + "%";
 
-    levelTitle.textContent=`LEVEL ${level}`;
+    levelTitle.textContent = `LEVEL ${level}`;
 
-    xpText.textContent=`${currentXP} / 1000 XP`;
+    xpText.textContent = `${currentXP} / 1000 XP`;
 
 }
 
 function updateQuestProgress(){
 
-    questProgress.textContent=`${completedQuests.length}/${questButtons.length}`;
+    questProgress.textContent =
+    `${completedQuests.length}/${questButtons.length}`;
 
     if(completedQuests.length===questButtons.length){
 
-        questProgress.textContent+=" ✅";
+        questProgress.textContent += " ✅";
 
     }
 
@@ -89,4 +90,48 @@ questButtons.forEach((button,index)=>{
 
     if(completedQuests.includes(index)){
 
-        button.textContent="Completed ✓";
+        button.innerHTML = "✅ Completed";
+        button.disabled = true;
+        button.style.background = "#16A34A";
+        button.style.boxShadow = "0 0 18px rgba(22,163,74,.35)";
+
+    }
+
+    button.addEventListener("click",()=>{
+
+        if(button.disabled) return;
+
+        const reward = Number(button.dataset.xp);
+
+        xp += reward;
+
+        localStorage.setItem("xp",xp);
+
+        completedQuests.push(index);
+
+        localStorage.setItem(
+            "completedQuests",
+            JSON.stringify(completedQuests)
+        );
+
+        updateXP();
+        updateQuestProgress();
+
+        progressBar.animate(
+            [
+                {transform:"scaleX(.98)"},
+                {transform:"scaleX(1)"}
+            ],
+            {
+                duration:300
+            }
+        );
+
+        button.innerHTML = "✅ Completed";
+        button.disabled = true;
+        button.style.background = "#16A34A";
+        button.style.boxShadow = "0 0 18px rgba(22,163,74,.35)";
+
+    });
+
+});
