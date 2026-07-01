@@ -1,6 +1,6 @@
 // =========================================
-// ASCEND v0.6
-// Quest Progress
+// ASCEND v0.7
+// Dynamic Mission System
 // =========================================
 
 const saveUser = document.getElementById("saveUser");
@@ -12,6 +12,7 @@ const progressBar = document.querySelector(".progress-fill");
 const xpText = document.getElementById("xpText");
 const levelTitle = document.getElementById("levelTitle");
 const questProgress = document.getElementById("questProgress");
+const questList = document.getElementById("questList");
 
 let xp = Number(localStorage.getItem("xp")) || 120;
 const maxXP = 1000;
@@ -19,13 +20,14 @@ const maxXP = 1000;
 let completedQuests =
 JSON.parse(localStorage.getItem("completedQuests")) || [];
 
-const questButtons = document.querySelectorAll(".quest-btn");
-
 loadUser();
+renderQuests();
 updateXP();
 updateQuestProgress();
 
 saveUser.addEventListener("click", beginJourney);
+
+// ---------------- USER ----------------
 
 function beginJourney(){
 
@@ -46,39 +48,40 @@ function loadUser(){
     if(username){
 
         greeting.innerHTML = `Welcome back,<br>${username}.`;
-
         onboarding.style.display = "none";
 
     }else{
 
         greeting.textContent = "Welcome.";
-
         onboarding.style.display = "block";
 
     }
 
 }
 
+// ---------------- XP ----------------
+
 function updateXP(){
 
     const level = Math.floor(xp/1000)+1;
-
     const currentXP = xp%1000;
 
     progressBar.style.width = (currentXP/1000)*100 + "%";
 
     levelTitle.textContent = `LEVEL ${level}`;
 
-    xpText.textContent = `${currentXP} / 1000 XP`;
+    xpText.textContent = `${currentXP} / ${maxXP} XP`;
 
 }
+
+// ---------------- QUESTS ----------------
 
 function updateQuestProgress(){
 
     questProgress.textContent =
-    `${completedQuests.length}/${questButtons.length}`;
+    `${completedQuests.length}/${quests.length}`;
 
-    if(completedQuests.length===questButtons.length){
+    if(completedQuests.length===quests.length){
 
         questProgress.textContent += " ✅";
 
@@ -86,52 +89,65 @@ function updateQuestProgress(){
 
 }
 
-questButtons.forEach((button,index)=>{
+function renderQuests(){
 
-    if(completedQuests.includes(index)){
+    questList.innerHTML = "";
 
-        button.innerHTML = "✅ Completed";
-        button.disabled = true;
-        button.style.background = "#16A34A";
-        button.style.boxShadow = "0 0 18px rgba(22,163,74,.35)";
+    quests.forEach((quest,index)=>{
 
-    }
+        const card = document.createElement("div");
 
-    button.addEventListener("click",()=>{
+        card.className = "quest";
 
-        if(button.disabled) return;
+        card.innerHTML = `
+            <div>
+                <h3>${quest.title}</h3>
+                <p>+${quest.xp} XP</p>
+            </div>
 
-        const reward = Number(button.dataset.xp);
+            <button
+                class="quest-btn">
+                Complete
+            </button>
+        `;
 
-        xp += reward;
+        const button =
+        card.querySelector(".quest-btn");
 
-        localStorage.setItem("xp",xp);
+        if(completedQuests.includes(index)){
 
-        completedQuests.push(index);
+            button.innerHTML = "✅ Completed";
+            button.disabled = true;
+            button.style.background = "#16A34A";
 
-        localStorage.setItem(
-            "completedQuests",
-            JSON.stringify(completedQuests)
-        );
+        }
 
-        updateXP();
-        updateQuestProgress();
+        button.addEventListener("click",()=>{
 
-        progressBar.animate(
-            [
-                {transform:"scaleX(.98)"},
-                {transform:"scaleX(1)"}
-            ],
-            {
-                duration:300
-            }
-        );
+            if(button.disabled) return;
 
-        button.innerHTML = "✅ Completed";
-        button.disabled = true;
-        button.style.background = "#16A34A";
-        button.style.boxShadow = "0 0 18px rgba(22,163,74,.35)";
+            xp += quest.xp;
+
+            localStorage.setItem("xp",xp);
+
+            completedQuests.push(index);
+
+            localStorage.setItem(
+                "completedQuests",
+                JSON.stringify(completedQuests)
+            );
+
+            updateXP();
+            updateQuestProgress();
+
+            button.innerHTML = "✅ Completed";
+            button.disabled = true;
+            button.style.background = "#16A34A";
+
+        });
+
+        questList.appendChild(card);
 
     });
 
-});
+}
